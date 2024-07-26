@@ -1,3 +1,21 @@
+let startTime = new Date();
+let finishTime;
+let deliveredCount = 0;
+function updateDeliverCount(v) {
+  if (v !== undefined && v > 0) {
+    deliveredCount += v;
+  }
+  document.getElementById("startTime").innerHTML = startTime.toLocaleString();
+
+  if (finishTime) {
+    document.getElementById("finishTime").innerHTML =
+      finishTime.toLocaleString();
+    document.getElementById("gapTime").innerHTML = getDateTimeSince(startTime);
+  }
+
+  document.getElementById("counter").innerHTML = deliveredCount;
+}
+
 class Floor {
   static floorHeight = 14;
   constructor(number, yPosition, isWaiting = false) {
@@ -194,6 +212,7 @@ class ElevatorSystem {
   }
 
   start() {
+    this.draw();
     updateDeliverCount();
     this.populateWaitingFloors();
     const promises = this.elevators.map(
@@ -243,22 +262,4 @@ for (let index = 1; index <= totalFloors; index++) {
 }
 
 const elevatorSystem = new ElevatorSystem(canvas, ctx, floors, elevators, mans);
-elevatorSystem.draw();
-
-let startTime = new Date();
-let finishTime;
-let deliveredCount = 0;
-function updateDeliverCount(v) {
-  if (v !== undefined && v > 0) {
-    deliveredCount += v;
-  }
-  document.getElementById("startTime").innerHTML = startTime.toLocaleString();
-
-  if (finishTime) {
-    document.getElementById("finishTime").innerHTML =
-      finishTime.toLocaleString();
-    document.getElementById("gapTime").innerHTML = getDateTimeSince(startTime);
-  }
-
-  document.getElementById("counter").innerHTML = deliveredCount;
-}
+elevatorSystem.start();
